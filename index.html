@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+		#l-map{height:100%;width:78%;float:left;border-right:2px solid #bcbcbc;}
+		#r-result{height:100%;width:20%;float:left;}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=3Lc1WE5rykcTMMpaigQGDoG1V06fCDDp"></script>
+	<title>添加多个标注点</title>
+</head>
+<body>
+	<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+
+	var hos = '{"hos":[{"name":"四川仁爱医院","att":104.07348,"lat":30.67176},{"name":"四川省白内障专科医院&&成都牙科医院","att":104.05413,"lat":30.67197},{"name":"四川省第五人民医院","att":104.058327,"lat":30.664539},{"name":"四川省红十字肿瘤医院","att":104.27383,"lat":30.55443},{"name":"四川省皮肤病性病防治研究所","att":104.05571,"lat":30.67126},{"name":"四川省西南联合泌尿肿瘤研究所附属医院","att":104.07325,"lat":30.66932},{"name":"四川武警消防总队医院耳鼻喉科","att":104.02757,"lat":30.67164},{"name":"四川消防医院胃肠诊疗中心","att":104.02757,"lat":30.67164},{"name":"铁道第二勘察设计院医院","att":104.056299,"lat":30.678369},{"name":"武警四川省消防总队医院/武警四川省消防总队医院胃肠诊疗中心","att":104.02757,"lat":30.67164},{"name":"西南肝病研究院","att":104.05248,"lat":30.63539},{"name":"四川汉密尔顿美容医院","att":104.06335,"lat":30.61639},{"name":"四川军大医学研究所","att":104.07575,"lat":30.58495},{"name":"成都万福医院&&四川西南联合皮肤病研究所第一附属医院","att":104.07216,"lat":30.67769},{"name":"成都胃病医院","att":104.03253,"lat":30.67007},{"name":"成都心血管病医院","att":104.05941,"lat":30.66979},{"name":"成都养和堂中医院/成都养和堂中医肝病医院","att":104.04664,"lat":30.662},{"name":"成都银康银屑病医院","att":104.05585,"lat":30.65065},{"name":"成都中山骨科医院","att":104.06143,"lat":30.64996},{"name":"成都中医药大学第三附属医院","att":104.05712,"lat":30.65468},{"name":"都江堰嘉昊眼科医院","att":103.647592,"lat":30.980996},{"name":"高新高翔牙科","att":104.0526,"lat":30.62989},{"name":"四川国济甲亢病医院","att":104.0034,"lat":30.66671},{"name":"成都联大中西医结合医院","att":104.04113,"lat":30.66543},{"name":"成都市肺结核医院","att":104.0747,"lat":30.66686},{"name":"成都市妇幼保健院","att":104.05243,"lat":30.66701},{"name":"成都市华协医院","att":104.04634,"lat":30.66465},{"name":"成都市麦格眼科医院","att":104.05913,"lat":30.66746},{"name":"成都市青羊区草堂社区卫生服务中心","att":104.04664,"lat":30.65553},{"name":"成都市青羊区第八人民医院","att":104.03253,"lat":30.67007},{"name":"成都市青羊区第二人民医院","att":104.07674,"lat":30.67031},{"name":"成都市青羊区第九人民医院","att":103.98243,"lat":30.669329},{"name":"成都市青羊区第六人民医院","att":104.015587,"lat":30.669865},{"name":"成都市青羊区第七人民医院","att":104.048637,"lat":30.668249},{"name":"成都市青羊区第三人民医院","att":104.06583,"lat":30.66798},{"name":"成都市青羊区第十人民医院","att":103.93904,"lat":30.6685},{"name":"成都市青羊区第五人民医院","att":104.02924,"lat":30.66558},{"name":"成都市青羊区妇幼保健院","att":104.0801,"lat":30.67126}]}'
+	
+	var mydata = JSON.parse(hos);	
+	var length = mydata["hos"].length;
+	
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(104.058327, 30.664539);
+	map.centerAndZoom(point, 15);
+	// 编写自定义函数,创建标注
+	function addMarker(point, label){
+	  var marker = new BMap.Marker(point);
+	  map.addOverlay(marker);
+	  marker.setLabel(label);
+	}
+	// 随机向地图添加25个标注
+	for (var i = 0; i < length; i ++) {
+		var hospotial = mydata["hos"][i];
+		var point = new BMap.Point(hospotial["att"], hospotial["lat"]);
+		var opts = {
+		  position : point,    // 指定文本标注所在的地理位置
+		  offset   : new BMap.Size(10, -10)    //设置文本偏移量
+		}
+		var label = new BMap.Label(hospotial["name"], opts);
+		label.setStyle({
+			 color : "red",
+			 fontSize : "8px",
+			 height : "8px",
+			 lineHeight : "8px",
+			 fontFamily:"微软雅黑"
+		 });
+		addMarker(point, label);
+	}
+</script>
